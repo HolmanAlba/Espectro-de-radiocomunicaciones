@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Espectro de radiocomunicaciones</title>
+</head>
+
+<body>
+
+
+
+    <form action="calcular.php" method="post">
+
+        <h1>Espectro de radiocomunicaciones</h1>
+        <div>
+
+            <label for="">Temperatura:</label>
+            <input type="number" name="Temperatura">
+            <label for="">Ancho de banda de ruido:</label>
+            <input type="number" name="Anchoruido">
+
+            <select name="Tipohertz" id="">
+                <option value="0">Hz</option>
+                <option value="1">Khz</option>
+                <option value="2">Mhz</option>
+                <option value="3">Ghz</option>
+            </select>
+
+        </div>
+        <div>
+            <label for="">Señal 1</label>
+            <p></p>
+            <label for="">Frecuencia (MHz)</label>
+            <input type="number" name="frecuencia1">
+            <label for="">Potencia</label>
+            <input type="number" name="potencia1">
+            <label for="">Ancho de banda</label>
+            <input type="number" name="anchodebanda1">
+        </div>
+
+
+        <div>
+            <label for="">Señal 2</label>
+            <p></p>
+            <label for="">Frecuencia (MHz)</label>
+            <input type="number" name="frecuencia2">
+            <label for="">Potencia</label>
+            <input type="number" name="potencia2">
+            <label for="">Ancho de banda</label>
+            <input type="number" name="anchodebanda2">
+        </div>
+
+
+
+        <input type="submit" value="Calcular">
+
+    </form>
+
+</body>
+
+</html>
