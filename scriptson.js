@@ -1,67 +1,55 @@
-(async () => {
-
-  const respuestaRaw = await fetch("./cargar.txt");
-
-  
-  // Decodificar como JSON
-  const respuesta = await respuestaRaw.json();
-  // Ahora ya tenemos las etiquetas y datos dentro de "respuesta"
-  // Obtener una referencia al elemento canvas del DOM
-  const etiquetas = respuesta.etiquetas; // <- Aquí estamos pasando el valor traído usando AJAX
-  const datos = respuesta.datos; // <- Aquí estamos pasando el valor traído usando AJAX
-  
-
-
-
-var speedCanvas = document.getElementById("speedChart");
-
-Chart.defaults.global.defaultFontFamily = "Lato";
-Chart.defaults.global.defaultFontSize = 18;
-
-
-
-
-var Decibelios = {
-  
-  
-labels: etiquetas,
-datasets: [{
-  label: "Decibelios Dbm",
-  data: datos,
-  lineTension: 0.1,
-  fill: false,
-  borderColor: 'blue'
+<script>
+var data1 = [12, 3, 2, 1, 8, 8, 2, 2, 3, 5, 7, 1];
+var data2 = [{x: 1, y: 12}, {x: 2, y: 3}, {x: 3, y: 2}, {x: 4, y: 1}, {x: 5, y: 8}, {x: 6, y: 8}, {x: 7, y: 2}, {x: 8, y: 2}, {x: 9, y: 3}, {x: 10, y: 5}, {x: 11, y: 11}, {x: 12, y: 1}];
+var chartData = {/*from   ww w . j a  v a2s  . c o  m*/
+labels: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
+datasets: [
+{
+data: data2
 }
-
 ]
-
-
 };
-
-var chartOptions = {
-legend: {
-  display: true,
-  position: 'top',
-  labels: {
-    boxWidth: 80,
-    fontColor: 'black'
-  }
-  
-},
-
-};
-
-
-var lineChart = new Chart(speedCanvas, {
-type: 'line',
-data: Decibelios,
+window.onload = function() {
+var ctx = document.getElementById("canvas").getContext("2d");
+new Chart(ctx, {
+type: "line",
+data: chartData,
 options: {
-  chartOptions,
-  
+annotation: {
+  annotations: [
+    {
+      drawTime: "afterDatasetsDraw",
+      type: "line",
+      mode: "vertical",
+      scaleID: "x-axis-0",
+      value: 3.8,
+      borderWidth: 5,
+      borderColor: "red",
+      label: {
+        content: "TODAY",
+        enabled: true,
+        position: "top"
+      }
+    }
+  ]
+},
+scales: {
+  xAxes: [{
+    type: 'linear',
+    position: 'bottom',
+    ticks: {
+          max: 12,
+          min: 1,
+          stepSize: 1,
+          callback: function(value, index, values) {
+               return chartData.labels[index];
+          }
+     }
+  }]
 }
-
+}
 });
-})();
-
+};
+</script>  
 
 

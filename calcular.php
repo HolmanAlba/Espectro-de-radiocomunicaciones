@@ -68,35 +68,9 @@ function Hertz($TipoHertz, $anchodebandaruido)
 function Linea($Pisoderuido, $Potencia1, $frecuencia1, $Anchodebanda1, $Potencia2, $frecuencia2, $Anchodebanda2)
 {
     $datos = [$Pisoderuido, ($Potencia1 - 3), $Potencia1, ($Potencia1 - 3), $Pisoderuido, $Potencia2 - 3, $Potencia2, $Potencia2 - 3, $Pisoderuido];
-
-
-    $etiquetas = [
-        0, $frecuencia1 - ($Anchodebanda1 / 2), $frecuencia1, $frecuencia1 + ($Anchodebanda1 / 2), (($frecuencia2 - $frecuencia1) / 2) + $frecuencia1,
-
-        $frecuencia2 - ($Anchodebanda2 / 2), $frecuencia2, $frecuencia2 + ($Anchodebanda2 / 2), (($frecuencia2 - $frecuencia1) / 2 + $frecuencia2)
-    ];
-
-    $respuesta = [
-        "etiquetas" => $etiquetas,
-        "datos" => $datos,
-    ];
-    return json_encode($respuesta);
 }
 
 $piso = Piso_de_ruido($temperatura, Hertz($TipoHertz, $anchodebandaruido));
-
-$file = fopen("cargar.txt", "w+");
-
-fwrite($file, Linea($piso, $potencia1, $frecuencia1, $anchodebanda1, $potencia2, $frecuencia2, $anchodebanda2) . PHP_EOL);
-
-fclose($file);
-
-
-$file = fopen("pisoruido.txt", "w+");
-
-fwrite($file, Piso_de_ruidojson($temperatura, Hertz($TipoHertz, $anchodebandaruido)) . PHP_EOL);
-
-fclose($file);
 
 
 
@@ -150,6 +124,14 @@ $datosVentas = [5000, 1500, 8000, 5102];
         Chart.defaults.global.defaultFontFamily = "Lato";
         Chart.defaults.global.defaultFontSize = 18;
 
+
+        var dataFive = {
+            label: "Piso de ruido",
+            data: [pisoruidojav,numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-2),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-2),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-50)],
+            lineTension: 0.1,
+            fill: 'start',
+            backgroundColor: 'rgba(11, 6, 80, 1)',
+        };
         var dataFirst = {
             label: "Señal 1 dB",
             data: [pisoruidojav, pisoruidojav, pisoruidojav, pisoruidojav,potencia1-3,potencia1,potencia1-3,pisoruidojav,pisoruidojav,pisoruidojav,pisoruidojav],
@@ -165,17 +147,28 @@ $datosVentas = [5000, 1500, 8000, 5102];
             backgroundColor: 'rgba(190, 173, 243, 1)',
         };
         var dataThird = {
-            label: "Car B - Speed (mph)",
-            data: [],
-            lineTension: 0.1,
-            fill: 'start',
-            borderColor: 'blue'
+            label: "Potencia señal 1",
+            data: [potencia1,potencia1,potencia1,potencia1,potencia1,potencia1,potencia1,potencia1,potencia1,potencia1,potencia1,potencia1,potencia1,potencia1,potencia1],
+            fill: false,
+            borderColor: 'rgba(102, 215, 209, 1)', // Color del borde
+            borderWidth: 1, // Ancho del borde
         };
+        var dataFourth = {
+            label: "Potencia señal 2",
+            data: [potencia2,potencia2,potencia2,potencia2,potencia2,potencia2,potencia2,potencia2,potencia2,potencia2,potencia2,potencia2,potencia2,potencia2,potencia2],
+            fill: false,
+            borderColor: 'rgba(172, 168, 241, 1)', // Color del borde
+            borderWidth: 2, // Ancho del borde
+        };
+
+      
+
+
         var speedData = {
         labels: [0, frecuencia1 * 0.25, frecuencia1 * 0.5, frecuencia1 * 0.75,frecuIZQ ,frecuencia1,frecuDER,
                 
             ((frecuencia2-frecuencia1)/2)-frecuencia2*-1,frecuIZQ2 ,frecuencia2,frecuDER2 ,frecu25, frecu50, frecu75,frecuencia2*2],
-            datasets: [dataFirst, dataSecond]
+            datasets: [dataFive,dataFirst, dataSecond,dataThird,dataFourth],
         };
 
         var chartOptions = {
@@ -186,8 +179,17 @@ $datosVentas = [5000, 1500, 8000, 5102];
             boxWidth: 80,
             fontColor: 'black'
             }
-        }
+        },
+        
         };
+
+        numeroAleatorioDecimales(pisoruidojav,pisoruidojav-20)
+
+
+    function numeroAleatorioDecimales(max, min) {
+        var num = Math.random() * (max - min);
+        return num + min;
+        }
 
         var lineChart = new Chart(speedCanvas, {
         type: 'line',
