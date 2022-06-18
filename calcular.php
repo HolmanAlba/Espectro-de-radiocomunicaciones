@@ -18,6 +18,17 @@ $potencia2 = (int)$_POST['potencia2'];
 $anchodebanda2 = $_POST['anchodebanda2'];
 $TipoHertz = $_POST['Tipohertz'];
 
+$pot3 = $potencia2+3;
+$frecu225=$frecuencia2*0.25+$frecuencia2;
+$frecu250=$frecuencia2*0.5+$frecuencia2;
+$frecu275=$frecuencia2*0.75+$frecuencia2;
+
+$frecuIzq=$frecuencia1-($anchodebanda1/2);
+$frecuDer=$frecuencia1+($anchodebanda1/2);
+
+
+$frecuIzq2=$frecuencia2-($anchodebanda2/2);
+$frecuDer2=$frecuencia2+($anchodebanda2/2);
 
 //FUNCIONES
 function Piso_de_ruido($temperatura, $anchodebandaruido)
@@ -34,9 +45,9 @@ function Piso_de_ruidojson($temperatura, $anchodebandaruido)
     $res = 1.35 * pow(10, -23) * $temperatura * $anchodebandaruido;
 
     $res = $res * 1000;
-   $datos= $res = 10 * log10($res);
+    $datos = $res = 10 * log10($res);
     $respuesta1 = [
-        "datos" => $datos,$datos,$datos
+        "datos" => $datos, $datos, $datos
     ];
     return json_encode($respuesta1);
 }
@@ -56,7 +67,7 @@ function Hertz($TipoHertz, $anchodebandaruido)
 }
 function Linea($Pisoderuido, $Potencia1, $frecuencia1, $Anchodebanda1, $Potencia2, $frecuencia2, $Anchodebanda2)
 {
-    $datos = [$Pisoderuido, ($Potencia1 - 3), $Potencia1, ($Potencia1 - 3), $Pisoderuido, $Potencia2 - 3,$Potencia2 ,$Potencia2 - 3, $Pisoderuido];
+    $datos = [$Pisoderuido, ($Potencia1 - 3), $Potencia1, ($Potencia1 - 3), $Pisoderuido, $Potencia2 - 3, $Potencia2, $Potencia2 - 3, $Pisoderuido];
 
 
     $etiquetas = [
@@ -93,24 +104,97 @@ fclose($file);
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+<?php
+// Valores con PHP. Estos podrían venir de una base de datos o de cualquier lugar del servidor
+$etiquetas = ["Enero", "Febrero", "Marzo", "Abril"];
+$datosVentas = [5000, 1500, 8000, 5102];
+?>
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espectro de radiocomunicaciones</title>
+
+
+    <!-- Importar chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
-    <title>Espectograma</title>
 </head>
 
 <body>
-
-    <div id="chartContainer" style="height: 300px; width: 100%;">
-        <canvas id="speedChart" width="5" height="2"></canvas>
-        <script type="text/javascript" src="scriptson.js"></script>
+    <h1>Espectro de radiocomunicaciones</h1>
+    <canvas id="speedChart" width="270" height="100"></canvas>
 
 
-    </div>
+    <script type="text/javascript">
+        var potencia1 = '<?= $potencia1 ?>';
+        var frecuencia1 = '<?= $frecuencia1 ?>';
+        var anchodebanda1 = '<?= $anchodebanda1 ?>';
+        var pisoruidojav = '<?= $piso ?>';
+
+        var potencia2 = '<?= $potencia2 ?>';
+        var frecuencia2= ' <?= $frecuencia2 ?>';
+        var anchodebanda2= '<?= $anchodebanda2 ?>';
+
+        var frecu25 = ' <?= $frecu225 ?>';
+        var frecu50 = ' <?= $frecu250 ?>';
+        var frecu75 = ' <?= $frecu275 ?>';
+        var frecuIZQ = ' <?= $frecuIzq ?>';
+        var frecuDER = ' <?= $frecuDer ?>';
+        var frecuIZQ2 = ' <?= $frecuIzq2?>';
+        var frecuDER2 = ' <?= $frecuDer2 ?>';
+
+        
+        var speedCanvas = document.getElementById("speedChart");
+
+        Chart.defaults.global.defaultFontFamily = "Lato";
+        Chart.defaults.global.defaultFontSize = 18;
+
+        var dataFirst = {
+            label: "Señal 1 dB",
+            data: [pisoruidojav, pisoruidojav, pisoruidojav, pisoruidojav,potencia1-3,potencia1,potencia1-3,pisoruidojav,pisoruidojav,pisoruidojav,pisoruidojav],
+            lineTension: 0.1,
+            fill: 'start',
+            backgroundColor: 'rgba(102, 215, 209, 1)',
+        };
+        var dataSecond = {
+            label: "Señal 2 dB",
+            data: [pisoruidojav, pisoruidojav, pisoruidojav, pisoruidojav, pisoruidojav, pisoruidojav, pisoruidojav,potencia2-3,potencia2,potencia2-3,pisoruidojav,pisoruidojav,pisoruidojav,pisoruidojav,pisoruidojav],
+            lineTension: 0.1,
+            fill: 'start',
+            backgroundColor: 'rgba(190, 173, 243, 1)',
+        };
+        var dataThird = {
+            label: "Car B - Speed (mph)",
+            data: [],
+            lineTension: 0.1,
+            fill: 'start',
+            borderColor: 'blue'
+        };
+        var speedData = {
+        labels: [0, frecuencia1 * 0.25, frecuencia1 * 0.5, frecuencia1 * 0.75,frecuIZQ ,frecuencia1,frecuDER,
+                
+            ((frecuencia2-frecuencia1)/2)-frecuencia2*-1,frecuIZQ2 ,frecuencia2,frecuDER2 ,frecu25, frecu50, frecu75,frecuencia2*2],
+            datasets: [dataFirst, dataSecond]
+        };
+
+        var chartOptions = {
+        legend: {
+            display: true,
+            position: 'top',
+            labels: {
+            boxWidth: 80,
+            fontColor: 'black'
+            }
+        }
+        };
+
+        var lineChart = new Chart(speedCanvas, {
+        type: 'line',
+        data: speedData,
+        options: chartOptions
+        });
+    </script>
 </body>
 
 </html>
