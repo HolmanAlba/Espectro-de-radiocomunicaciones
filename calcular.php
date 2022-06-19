@@ -141,7 +141,7 @@ $datosVentas = [5000, 1500, 8000, 5102];
         };
         var dataSecond = {
             label: "Señal 2 dB",
-            data: [pisoruidojav, pisoruidojav, pisoruidojav, pisoruidojav, pisoruidojav, pisoruidojav, pisoruidojav,potencia2-3,potencia2,potencia2-3,pisoruidojav,pisoruidojav,pisoruidojav,pisoruidojav,pisoruidojav],
+            data: [pisoruidojav, pisoruidojav, pisoruidojav, pisoruidojav, pisoruidojav, pisoruidojav,pisoruidojav ,pisoruidojav,potencia2-3,potencia2,potencia2-3,pisoruidojav,pisoruidojav,pisoruidojav,pisoruidojav],
             lineTension: 0.1,
             fill: 'start',
             backgroundColor: 'rgba(190, 173, 243, 1)',
