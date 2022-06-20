@@ -125,23 +125,17 @@ $datosVentas = [5000, 1500, 8000, 5102];
         Chart.defaults.global.defaultFontSize = 18;
 
 
-        var dataFive = {
-            label: "Piso de ruido",
-            data: [pisoruidojav,numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-2),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-2),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-50)],
-            lineTension: 0.1,
-            fill: 'start',
-            backgroundColor: 'rgba(11, 6, 80, 1)',
-        };
+       
         var dataFirst = {
             label: "Señal 1 dB",
-            data: [pisoruidojav, pisoruidojav, pisoruidojav, pisoruidojav,potencia1-3,potencia1,potencia1-3,pisoruidojav,pisoruidojav,pisoruidojav,pisoruidojav],
+            data: [NaN, NaN, pisoruidojav, pisoruidojav,potencia1-3,potencia1,potencia1-3,pisoruidojav,NaN,NaN,NaN],
             lineTension: 0.1,
             fill: 'start',
             backgroundColor: 'rgba(102, 215, 209, 1)',
         };
         var dataSecond = {
             label: "Señal 2 dB",
-            data: [pisoruidojav, pisoruidojav, pisoruidojav, pisoruidojav, pisoruidojav, pisoruidojav,pisoruidojav ,pisoruidojav,potencia2-3,potencia2,potencia2-3,pisoruidojav,pisoruidojav,pisoruidojav,pisoruidojav],
+            data: [NaN, NaN, NaN, NaN, NaN, NaN,NaN ,pisoruidojav,potencia2-3,potencia2,potencia2-3,pisoruidojav,NaN,NaN,NaN,NaN],
             lineTension: 0.1,
             fill: 'start',
             backgroundColor: 'rgba(190, 173, 243, 1)',
@@ -160,15 +154,38 @@ $datosVentas = [5000, 1500, 8000, 5102];
             borderColor: 'rgba(172, 168, 241, 1)', // Color del borde
             borderWidth: 2, // Ancho del borde
         };
-
+        var dataFive = {
+            label: "Piso de ruido: "+pisoruidojav,
+            data: [pisoruidojav,numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-2),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-2),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-5),numeroAleatorioDecimales(pisoruidojav,pisoruidojav-30)],
+            lineTension: 0.1,
+            fill: 'start',
+            backgroundColor: 'rgba(11, 6, 80, 1)',
+        };
       
+        var dataSix = {
+            label: "Ancho de banda 1: "+anchodebanda1,
+            data: [NaN,NaN,NaN,NaN,(potencia1-3)-25,(potencia1-3)-25,(potencia1-3)-25,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN],
+            lineTension: 0,
+            fill: false,
+            borderColor: 'blue',
+            borderWidth: 1,
+        };
 
+        var dataSeven = {
+            label: "Ancho de banda 2: "+anchodebanda2,
+            data: [NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,(potencia2-3)-15,(potencia2-3)-15,(potencia2-3)-15,NaN,NaN,],
+            lineTension: 0,
+            fill: false,
+            borderColor: 'rgba(43, 42, 65, 1)',
+            borderWidth: 1,
+        };
+        
 
         var speedData = {
         labels: [0, frecuencia1 * 0.25, frecuencia1 * 0.5, frecuencia1 * 0.75,frecuIZQ ,frecuencia1,frecuDER,
                 
             ((frecuencia2-frecuencia1)/2)-frecuencia2*-1,frecuIZQ2 ,frecuencia2,frecuDER2 ,frecu25, frecu50, frecu75,frecuencia2*2],
-            datasets: [dataFive,dataFirst, dataSecond,dataThird,dataFourth],
+            datasets: [dataFive,dataFirst, dataSecond,dataThird,dataFourth,dataSix,dataSeven],
         };
 
         var chartOptions = {
@@ -176,14 +193,13 @@ $datosVentas = [5000, 1500, 8000, 5102];
             display: true,
             position: 'top',
             labels: {
-            boxWidth: 80,
+            boxWidth: 30,
             fontColor: 'black'
             }
         },
         
         };
 
-        numeroAleatorioDecimales(pisoruidojav,pisoruidojav-20)
 
 
     function numeroAleatorioDecimales(max, min) {
